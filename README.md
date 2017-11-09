@@ -1,1 +1,2 @@
-# berkyak
+# BerkYak 
+Models - Users, Posts, Comments
