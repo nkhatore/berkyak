@@ -1,3 +1,33 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer          not null, primary key
+#  studentid              :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  reset_password_token   :string
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer          default(0), not null
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :string
+#  last_sign_in_ip        :string
+#  upvotes_received       :integer
+#  posts_made             :integer
+#  posts_upvoted          :text
+#  auto_deleted_posts     :integer
+#  lat                    :float
+#  long                   :float
+#  city                   :string
+#  ip_address             :string
+#  posts_downvoted        :text
+#  downvotes_received     :integer
+#
+
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase

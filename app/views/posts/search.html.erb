@@ -1,0 +1,41 @@
+<% if @posts.blank? %>
+  <h4>There are no posts containing the term <%= params[:search] %>.</h4>
+<% end %>
+<% @posts.each do |p| %>
+
+
+	<%if p.location.city ==current_user.city%>
+	<h2>
+	post: <%= p.text %> | votes: <%= p.votes%> | time posted: <%= p.time %>
+	<%= button_to "upvote", vote_path(p.id), :name =>'upvote', :class => "button medium", :method => :patch %>
+	<%= button_to "downvote", vote_path(p.id), :name=>'downvote', :class => "button medium", :method => :patch %>
+	</h2>
+
+
+	<br />
+
+
+	<% p.comments.each do |c| %>
+
+		comment: <%= c.text %> | votes: <%= c.votes %>
+		<%= button_to "upvote", vote_comm_path(c.id), :name =>'upvote', :class => "button medium", :method => :patch %>
+		<%= button_to "downvote", vote_comm_path(c.id), :name =>'downvote', :class => "button medium", :method => :patch %>
+
+
+	<br />
+	<% end %>
+
+	<br />
+	<br />
+
+
+
+	<%= form_tag createcomment_path(p.id) do %>
+	    <%= label_tag :text, "comment:" %>
+	    <%= text_area_tag :text %>
+	    <%= submit_tag "submit!" %>
+    <% end %>
+<hr>
+<% end %>
+<% end %>
+<%= link_to 'Back to Home', root_path %>

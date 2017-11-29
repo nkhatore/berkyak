@@ -1,0 +1,39 @@
+<%= link_to 'Back to Home 🏠', root_path %>
+
+<% @posts.each do |p| %>
+
+
+	<%if p.location.city == current_user.city %>
+	<h2>
+	Post: <%= p.text %> | Votes: <%= p.votes%> | time posted: <%= p.time %>
+	<%= button_to "Upvote 👍", vote_path(p.id), :name =>'upvote', :class => "button medium", :method => :patch %>
+	<%= button_to "Downvote 👎", vote_path(p.id), :name=>'downvote', :class => "button medium", :method => :patch %>
+	</h2>
+
+
+	<br />
+
+
+	<% p.comments.each do |c| %>
+
+		comment: <%= c.text %> | votes: <%= c.votes %>
+		<%= button_to "Upvote 👍", vote_comm_path(c.id), :name =>'upvote', :class => "button medium", :method => :patch %>
+		<%= button_to "Downvote 👎", vote_comm_path(c.id), :name =>'downvote', :class => "button medium", :method => :patch %>
+
+
+	<br />
+	<% end %>
+
+	<br />
+	<br />
+
+
+
+	<%= form_tag createcomment_path(p.id) do %>
+	    <%= label_tag :text, "Comment:" %>
+	    <%= text_area_tag :text %>
+	    <%= submit_tag "Submit!" %>
+    <% end %>
+<hr>
+<% end %>
+<% end %>

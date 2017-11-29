@@ -1,42 +1,74 @@
+<h1>BerkYak 🐂</h1>
 
+<% if user_signed_in? %>
+  <li><%= link_to 'Edit Your User ✏️', edit_user_registration_path %></li>
+  <li><%= link_to 'Log Out 👋', destroy_user_session_path, :method=>'delete' %></li>
+  <li><%= link_to 'Your Stats 📊', showuser_path(current_user) %></li>
+
+
+<% else %>
+  <li><%= link_to 'Log In 👋', new_user_session_path %></li>
+  <li><%= link_to 'Join BerkYak 😍', new_user_registration_path %></li>
+
+<% end %>
+<hr>
+<h2>
+You are seeing posts from <%= Geocoder.search(@ip).first.city %>.
+</h2>
+<hr>
+<%= form_tag(search_path, :method => "get", id: "search-form") do %>
+    <%= text_field_tag :search, params[:search], placeholder: "Search Posts" %>
+    <%= submit_tag "Search 🔎", :name => nil %>
+<% end %>
+
+<hr>
+
+<hr>
+<%= button_to "Sort by Hot 🔥", sortby_path, :name => 'hot', :class => "button medium", :method => "get" %>
+<%= button_to "Sort by New 🔔", sortby_path, :name => 'new', :class => "button medium", :method => "get" %>
+<hr>
 
 <br />
 <%= form_tag createpost_path do %>
-    <%= label_tag :text, "post:" %>
+    <%= label_tag :text, "Post:" %>
     <%= text_area_tag :text %>
-  
-    <%= submit_tag "submit!" %>
+
+    <%= submit_tag "Submit!" %>
 <% end %>
 <br />
 
+<hr>
 <% @posts.each do |p| %>
-	
-	<h1>
-	votes: <%= p.votes%> |||
-	<%= p.text %>
-	</h1>
 
-	<% p.comments.each do |c| %>		
-	<p>
-		<%= c.text %>
-	</p>
+	<h2>
+	Post: <%= p.text %> | Votes: <%= p.votes %> | Posted on <%= p.created_at.month %>/<%= p.created_at.day %>/<%= p.created_at.year %> at <%= p.created_at.strftime('%H:%M') %>.
+	<%= button_to "Upvote 👍", vote_path(p.id), :name =>'upvote', :class => "button medium", :method => :patch %>
+	<%= button_to "Downvote 👎", vote_path(p.id), :name =>'downvote', :class => "button medium", :method => :patch %>
+	</h2>
+
+
+	<br />
+
+
+	<% p.comments.each do |c| %>
+
+		Comment: <%= c.text %> | Votes: <%= c.votes %>
+		<%= button_to "Upvote 👍", vote_comm_path(c.id), :name =>'upvote', :class => "button medium", :method => :patch %>
+		<%= button_to "Downvote 👎", vote_comm_path(c.id), :name =>'downvote', :class => "button medium", :method => :patch %>
+
+
+	<br />
 	<% end %>
 
-
-	<%= button_to "click to vote", vote_path(p.id), :class => "button medium", :method => :patch %>
+	<br />
+	<br />
 
 
 
 	<%= form_tag createcomment_path(p.id) do %>
-	    <%= label_tag :text, "comment:" %>
+	    <%= label_tag :text, "Comment:" %>
 	    <%= text_area_tag :text %>
-	    <%= submit_tag "submit!" %>
+	    <%= submit_tag "Submit!" %>
     <% end %>
-	<br />
+<hr>
 <% end %>
-	
-
-
-
-
-

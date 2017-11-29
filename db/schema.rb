@@ -10,13 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171116034005) do
+ActiveRecord::Schema.define(version: 20171125081119) do
 
   create_table "comments", force: :cascade do |t|
     t.string "text"
     t.integer "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "votes"
+    t.integer "user_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "city"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "maxmind_geolite_city_blocks", id: false, force: :cascade do |t|
+    t.bigint "start_ip_num", null: false
+    t.bigint "end_ip_num", null: false
+    t.bigint "loc_id", null: false
+    t.index ["end_ip_num", "start_ip_num"], name: "index_maxmind_geolite_city_blocks_on_end_ip_num_range", unique: true
+    t.index ["loc_id"], name: "index_maxmind_geolite_city_blocks_on_loc_id"
+    t.index ["start_ip_num"], name: "index_maxmind_geolite_city_blocks_on_start_ip_num", unique: true
+  end
+
+  create_table "maxmind_geolite_city_location", id: false, force: :cascade do |t|
+    t.bigint "loc_id", null: false
+    t.string "country", null: false
+    t.string "region", null: false
+    t.string "city"
+    t.string "postal_code", null: false
+    t.float "latitude"
+    t.float "longitude"
+    t.integer "metro_code"
+    t.integer "area_code"
+    t.index ["loc_id"], name: "index_maxmind_geolite_city_location_on_loc_id", unique: true
   end
 
   create_table "posts", force: :cascade do |t|
@@ -24,6 +54,9 @@ ActiveRecord::Schema.define(version: 20171116034005) do
     t.integer "votes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "location_id"
+    t.string "time"
   end
 
   create_table "users", force: :cascade do |t|
@@ -42,6 +75,14 @@ ActiveRecord::Schema.define(version: 20171116034005) do
     t.string "last_sign_in_ip"
     t.integer "upvotes_received"
     t.integer "posts_made"
+    t.text "posts_upvoted"
+    t.integer "auto_deleted_posts"
+    t.float "lat"
+    t.float "long"
+    t.string "city"
+    t.string "ip_address"
+    t.text "posts_downvoted"
+    t.integer "downvotes_received"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
