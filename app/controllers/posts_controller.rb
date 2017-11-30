@@ -82,15 +82,15 @@ class PostsController < ApplicationController
       post.text = params[:text]
 			post.location = loc
 
-			if params[:votes] != 0
-				post.votes = params[:votes]
-			end
-
-			if params[:user_id] != current_user.id
-				post.user = User.find(params[:user_id])
-			else
-      	post.user = current_user
-			end
+			#if params[:votes] != 0
+			#	post.votes = params[:votes]
+			#end
+      
+			#if params[:user_id] != current_user.id
+			#	post.user = User.find(params[:user_id])
+			#else
+      post.user = current_user
+			#end
 			
       post.time = Time.now
 
