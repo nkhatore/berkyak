@@ -1,28 +1,31 @@
-(upvotes received) - (downvotes received) = <%= @user.upvotes_received%> - <%=@user.downvotes_received%> = <%= @user.upvotes_received - @user.downvotes_received %> 
+<style>
+body
+{
+    background-color: lightblue;
+}
+</style>
+
+<%= button_to 'Back to Home 🏠', root_path, :method => 'get' %>
+<br/>
+<br/>
+(Upvotes received) - (Downvotes received) = <%= @user.upvotes_received%> - <%=@user.downvotes_received%> = <%= @user.upvotes_received - @user.downvotes_received %>
 <br />
 <br />
 
-post count = <%= @user.posts_made %> 
+Post count = <%= @user.posts_made %>
 <br />
 <br />
 
 
-location = <%= @user.city %>
-<br />
-<br />
-
-
-
-auto-deleted posts = <%= @user.auto_deleted_posts %> <br/> If you have 3 auto-deleted posts or comments, you are banned from posting and commenting.
+Location = <%= @user.city %>
 <br />
 <br />
 
 
 
-
-
-
-
-
-
-<%= link_to 'back to home', root_path %>
+Auto-deleted posts = <%= @user.auto_deleted_posts %>
+<br/>
+<br/>
+(If you have 3 auto-deleted posts or comments, you are banned from posting and commenting.)
+<br />
+<br />

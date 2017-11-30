@@ -1,11 +1,18 @@
-<%= link_to 'Back to Home 🏠', root_path %>
+<style>
+body
+{
+    background-color: lightblue;
+}
+</style>
+
+<%= button_to 'Back to Home 🏠', root_path, :method => 'get' %>
 
 <% @posts.each do |p| %>
 
 
 	<%if p.location.city == current_user.city %>
 	<h2>
-	Post: <%= p.text %> | Votes: <%= p.votes%> | time posted: <%= p.time %>
+	Post: <%= p.text %> | Votes: <%= p.votes %> | Posted on <%= p.created_at.month %>/<%= p.created_at.day %>/<%= p.created_at.year %> at <%= p.created_at.strftime('%H:%M') %>.
 	<%= button_to "Upvote 👍", vote_path(p.id), :name =>'upvote', :class => "button medium", :method => :patch %>
 	<%= button_to "Downvote 👎", vote_path(p.id), :name=>'downvote', :class => "button medium", :method => :patch %>
 	</h2>
@@ -16,7 +23,7 @@
 
 	<% p.comments.each do |c| %>
 
-		comment: <%= c.text %> | votes: <%= c.votes %>
+		Comment: <%= c.text %> | Votes: <%= c.votes %>
 		<%= button_to "Upvote 👍", vote_comm_path(c.id), :name =>'upvote', :class => "button medium", :method => :patch %>
 		<%= button_to "Downvote 👎", vote_comm_path(c.id), :name =>'downvote', :class => "button medium", :method => :patch %>
 

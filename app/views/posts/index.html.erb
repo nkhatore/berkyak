@@ -1,18 +1,31 @@
-<h1>BerkYak 🐂</h1>
+<h1 align="center">Berk 🐂 Yak
+  <style>
+  body
+  {
+      background-color: lightblue;
+      font-family: helvetica;
+  }
 
+  h1
+  {
+      color: goldenrod;
+  }
+  </style>
+</h1>
+<hr>
 <% if user_signed_in? %>
-  <li><%= link_to 'Edit Your User ✏️', edit_user_registration_path %></li>
-  <li><%= link_to 'Log Out 👋', destroy_user_session_path, :method=>'delete' %></li>
-  <li><%= link_to 'Your Stats 📊', showuser_path(current_user) %></li>
+<%= button_to 'Edit Your User ✏️', edit_user_registration_path, :method => 'get' %>
+<%= button_to 'Log Out 👋', destroy_user_session_path, :method=>'delete' %>
+<%= button_to 'Your Stats 📊', showuser_path(current_user), :method => 'get' %>
 
 
 <% else %>
-  <li><%= link_to 'Log In 👋', new_user_session_path %></li>
-  <li><%= link_to 'Join BerkYak 😍', new_user_registration_path %></li>
+  <li><%= button_to 'Log In 👋', new_user_session_path, :method => 'get' %></li>
+  <li><%= button_to 'Join BerkYak 😍', new_user_registration_path, :method => 'get' %></li>
 
 <% end %>
 <hr>
-<h2>
+<h2 >
 You are seeing posts from <%= Geocoder.search(@ip).first.city %>.
 </h2>
 <hr>
@@ -22,8 +35,6 @@ You are seeing posts from <%= Geocoder.search(@ip).first.city %>.
 <% end %>
 
 <hr>
-
-<hr>
 <%= button_to "Sort by Hot 🔥", sortby_path, :name => 'hot', :class => "button medium", :method => "get" %>
 <%= button_to "Sort by New 🔔", sortby_path, :name => 'new', :class => "button medium", :method => "get" %>
 <hr>
@@ -31,7 +42,7 @@ You are seeing posts from <%= Geocoder.search(@ip).first.city %>.
 <br />
 <%= form_tag createpost_path do %>
     <%= label_tag :text, "Post:" %>
-    <%= text_area_tag :text %>
+    <%= text_area_tag :text, nil, placeholder: "What's happening?" %>
 
     <%= submit_tag "Submit!" %>
 <% end %>
@@ -40,8 +51,8 @@ You are seeing posts from <%= Geocoder.search(@ip).first.city %>.
 <hr>
 <% @posts.each do |p| %>
 
-	<h2>
-	Post: <%= p.text %> | Votes: <%= p.votes %> | Posted on <%= p.created_at.month %>/<%= p.created_at.day %>/<%= p.created_at.year %> at <%= p.created_at.strftime('%H:%M') %>.
+	<h2 >
+  Post: <%= p.text %> | Votes: <%= p.votes %> | Posted on <%= p.created_at.month %>/<%= p.created_at.day %>/<%= p.created_at.year %> at <%= p.created_at.strftime('%H:%M') %>.
 	<%= button_to "Upvote 👍", vote_path(p.id), :name =>'upvote', :class => "button medium", :method => :patch %>
 	<%= button_to "Downvote 👎", vote_path(p.id), :name =>'downvote', :class => "button medium", :method => :patch %>
 	</h2>

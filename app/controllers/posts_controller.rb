@@ -80,14 +80,19 @@ class PostsController < ApplicationController
 
       post = Post.new
       post.text = params[:text]
+			post.location = loc
+
 			if params[:votes] != 0
 				post.votes = params[:votes]
 			end
-      post.location = loc
-			if params[:user_id]
-      post.user = current_user
-      post.time = Time.now
 
+			if params[:user_id] != current_user.id
+				post.user = User.find(params[:user_id])
+			else
+      	post.user = current_user
+			end
+			
+      post.time = Time.now
 
       post.save
 
@@ -96,7 +101,6 @@ class PostsController < ApplicationController
       current_user.save
       ###
       redirect_to root_path
-
     end
 
     ###
